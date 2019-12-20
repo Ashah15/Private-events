@@ -9,14 +9,16 @@ class EventsController < ApplicationController
     def create
     	  @user = current_user
         @event = current_user.events.build(events_params)
+        @event.creator = current_user
         logger.debug
         if @event.save
-        	logger.debug
-        	  flash.now[:success] = 'Event created!'
+            logger.debug
+              flash.now[:success] = 'Event created!'
             redirect_to events_path
         else
-        	logger.debug
+            logger.debug
             render 'events/new'
+          Rails.logger.warn @event.errors.full_messages
         end
     end
 
