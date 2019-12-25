@@ -7,18 +7,13 @@ class EventsController < ApplicationController
 	end
 
     def create
-    	  @user = current_user
         @event = current_user.events.build(events_params)
         @event.creator = current_user
-        logger.debug
         if @event.save
-            logger.debug
-              flash.now[:success] = 'Event created!'
+            flash.now[:success] = 'Event created!'
             redirect_to events_path
         else
-            logger.debug
             render 'events/new'
-          Rails.logger.warn @event.errors.full_messages
         end
     end
 
@@ -40,7 +35,7 @@ class EventsController < ApplicationController
 	private
 
     def events_params
-    	params.require(:event).permit(:name, :venue, :time, :event_date)
+    	params.require(:event).permit(:name, :venue, :time, :event_date, :description)
     end
 
 

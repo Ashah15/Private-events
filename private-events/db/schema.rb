@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_213920) do
     t.string "venue"
     t.string "time"
     t.string "event_date"
+    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
@@ -26,11 +27,11 @@ ActiveRecord::Schema.define(version: 2019_12_19_213920) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "username"
     t.string "email"
     t.string "remember_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "events", "users"
