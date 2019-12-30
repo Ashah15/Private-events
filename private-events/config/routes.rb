@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+	root 'events#index'
   get '/signup/' ,to: 'users#new' 
   get '/login', to: 'sessions#new'
 	post 'login', to: 'sessions#create'
@@ -6,5 +7,5 @@ Rails.application.routes.draw do
 
   resources :users
   resources :events
-
+  resources :attendees, only: [:create]
 end

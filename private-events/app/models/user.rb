@@ -7,7 +7,8 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
-  has_many :events, dependent: :destroy
+
+  has_many :events, foreign_key: 'creator_id', dependent: :destroy
 
 
   # Returns the hash digest of the given string.
@@ -39,5 +40,6 @@ class User < ApplicationRecord
   def forget
     update_attribute(:remember_digest, nil)
   end
+
 
 end

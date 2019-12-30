@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 	before_action :logged_in_user, only: [:show]
+	before_action :correct_user, only: [:show]
 
 	def new
 		@user = User.new
@@ -17,6 +18,8 @@ class UsersController < ApplicationController
 
 	def show
 		@user = current_user
+		@upcoming_events = Event.upcoming.joins(:attendees).where(attendees: { name: current_user.username })
+		@past_events = Event.past.joins(:attendees).where(attendees: { name: current_user.username })
 	end
 
 	private
@@ -30,5 +33,11 @@ class UsersController < ApplicationController
         flash[:danger] = "Please log in."
         redirect_to login_url
       end
+    end
+
+    # Confirms the correct user.
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
     end
 end

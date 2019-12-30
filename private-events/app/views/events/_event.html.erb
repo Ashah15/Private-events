@@ -1,12 +1,20 @@
+<div class="col-3">
 <div class="card my-4">
   <div class="card-body">
     <h5 class="card-title"><%=event.name %></h5>
     <p class="card-text"><%=event.venue %></p>
-    <p><%= event.event_date %> <br> <%= event.time %> <br> <%= event.description %></p>
+    <p><%= event.event_date.strftime("%d/%m/%Y") %> <br> <%= event.time %> <br> <%= event.description %></p>
     <p><span class="user">Author: <%=event.creator.username %></span></p>
       <p class="timestamp"><em>Created: <%= time_ago_in_words(event.created_at) %> ago.</em></p>
-      <p class="d-flex justify-content-between"><span class="d-flex"><%= link_to "Delete", event, method: :delete %></span><span class="d-flex"><%=link_to "View Event", event %></span></p> 
+      <p class="d-flex justify-content-between">
+      	<span class="d-flex">
+      	<% if current_user == event.creator %>
+      	<%= link_to "Delete", event, method: :delete %>
+      	<% end %>
+      	</span>
+      	<span class="d-flex"><%=link_to "View Event", event %></span></p> 
   </div>
+</div>
 </div>
 
 

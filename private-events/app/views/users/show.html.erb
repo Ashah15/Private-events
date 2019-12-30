@@ -3,3 +3,18 @@
 		<h2>Welcome <%= @user.username %></h2>
 	</div>
 </div>
+
+<h4>Your Upcoming Events</h4>
+<div class="row">
+		<%= render @upcoming_events %>
+</div>
+
+<h4>Previous Events You Attended</h4>
+<div class="row">
+		<%= render @past_events %>
+</div>
+
+
+
+
+

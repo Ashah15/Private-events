@@ -4,10 +4,13 @@ class CreateEvents < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :venue
       t.string :time
-      t.string :event_date
+      t.datetime :event_date
       t.string :description
-      
+      t.integer :creator_id, null:false
+
       t.timestamps
     end
+    add_index :events, [:creator_id, :created_at]
   end
 end
+

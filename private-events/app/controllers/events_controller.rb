@@ -1,8 +1,10 @@
 class EventsController < ApplicationController
-	before_action :logged_in_user, only: [:new, :create, :destroy]
+	before_action :logged_in_user, only: [:new, :create]
+    before_action :event_owner, only: [:destroy]
 
 
 	def new
+      @user = current_user
 	  @event = Event.new
 	end
 
@@ -18,12 +20,16 @@ class EventsController < ApplicationController
     end
 
     def show
+        @user = current_user
     	@event = Event.find(params[:id])
+        @attendees = @event.attendees
+        @isAttendee = @event.attendees.exists?(:name => current_user.username)
     end
 
     def index
     	@user = current_user
-        @events = Event.paginate(page: params[:page],per_page: 3)
+        @past_events = Event.past.paginate(page: params[:page],per_page: 3)
+        @upcoming_events = Event.upcoming.paginate(page: params[:page],per_page: 3)
     end
 
     def destroy
@@ -44,6 +50,14 @@ class EventsController < ApplicationController
         store_location
         flash[:danger] = "Please log in."
         redirect_to login_url
+      end
+    end
+
+    def event_owner
+      @event = Event.find(params[:id])
+      unless current_user == @event.creator
+        flash[:danger] = "You do not own this event"
+        redirect_to events_path
       end
     end
 end
