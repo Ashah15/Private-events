@@ -4,30 +4,28 @@ class EventsController < ApplicationController
 
 
 	def new
-      @user = current_user
 	  @event = Event.new
 	end
 
     def create
         @event = current_user.events.build(events_params)
         @event.creator = current_user
-        if @event.save
+        if @event.save  
+            @event.attendees.create(name:current_user.username, attendee_id:current_user.id, attended_event_id:@event.id)
             flash.now[:success] = 'Event created!'
-            redirect_to events_path
+            redirect_to events_path   
         else
             render 'events/new'
         end
     end
 
     def show
-        @user = current_user
     	@event = Event.find(params[:id])
         @attendees = @event.attendees
         @isAttendee = @event.attendees.exists?(:name => current_user.username)
     end
 
     def index
-    	@user = current_user
         @past_events = Event.past.paginate(page: params[:page],per_page: 3)
         @upcoming_events = Event.upcoming.paginate(page: params[:page],per_page: 3)
     end
@@ -45,14 +43,6 @@ class EventsController < ApplicationController
     end
 
 
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
-
     def event_owner
       @event = Event.find(params[:id])
       unless current_user == @event.creator
@@ -60,4 +50,5 @@ class EventsController < ApplicationController
         redirect_to events_path
       end
     end
+
 end

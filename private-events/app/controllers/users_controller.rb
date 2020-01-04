@@ -18,21 +18,13 @@ class UsersController < ApplicationController
 
 	def show
 		@user = current_user
-		@upcoming_events = Event.upcoming.joins(:attendees).where(attendees: { name: current_user.username })
-		@past_events = Event.past.joins(:attendees).where(attendees: { name: current_user.username })
+		@upcoming_events = current_user_upcoming_events
+		@past_events = current_user_past_events
 	end
 
 	private
 	  def user_params
     	params.require(:user).permit(:username, :email)
-    end
-
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
     end
 
     # Confirms the correct user.

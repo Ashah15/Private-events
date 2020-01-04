@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_12_25_180906) do
     t.string "time"
     t.datetime "event_date"
     t.string "description"
-    t.integer "creator_id", null: false
+    t.integer "creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id", "created_at"], name: "index_events_on_creator_id_and_created_at"

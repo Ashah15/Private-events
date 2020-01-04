@@ -46,15 +46,12 @@ module SessionsHelper
     user == current_user
   end
 
-  # Redirects to stored location (or to the default).
-  def redirect_back_or(default)
-    redirect_to(session[:forwarding_url] || default)
-    session.delete(:forwarding_url)
+  def current_user_upcoming_events
+    Event.upcoming.joins(:attendees).where(attendees: { name: current_user.username })
   end
 
-  # Stores the URL trying to be accessed.
-  def store_location
-    session[:forwarding_url] = request.original_url if request.get?
+  def current_user_past_events
+    Event.past.joins(:attendees).where(attendees: { name: current_user.username })
   end
 
 
