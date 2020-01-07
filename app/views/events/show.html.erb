@@ -1,5 +1,6 @@
 <div class="row">
 	<div class="col">
+	<% if @event %>
 	<p class="d-block h2"><%=@event.creator.username.capitalize %></p>
 	<p class="d-block h2"><%=@event.name %></p>
 	<p class="d-block"><%=@event.venue %></p>
@@ -17,5 +18,7 @@
 	  	<li class="list-group-item"><%= attendee.name %></li>
 	<% end %>
 	</ul>
+
+	<% end %>
 </div>
 </div>
