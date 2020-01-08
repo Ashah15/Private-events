@@ -1,0 +1,24 @@
+<div class="row">
+	<div class="col">
+	<% if @event %>
+	<p class="d-block h2"><%=@event.creator.username.capitalize %></p>
+	<p class="d-block h2"><%=@event.name %></p>
+	<p class="d-block"><%=@event.venue %></p>
+	<p class="d-block"><%=@event.description %></p>
+
+  <% if !@isAttendee %>
+	<p><%= button_to 'Attend Event',{:controller => 'attendees', :action => 'create', :name => current_user.username, :attendee_id => current_user.id, :attended_event_id => @event.id}, {:method => :post} %></p>
+	<% else %>
+	<p>You have choosen to attend this Event</p>
+	<% end %>
+
+ <p class="lead">Attendees</p>
+ 	<ul class="list-group">
+	<% @attendees.each do |attendee| %>
+	  	<li class="list-group-item"><%= attendee.name %></li>
+	<% end %>
+	</ul>
+
+	<% end %>
+</div>
+</div>
